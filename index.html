@@ -1,36 +1,557 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Consulta de equipos</title>
+
 <style>
-:root{font-family:Inter,system-ui,Arial,sans-serif;color:#172b27;background:#f4f7f5}
-*{box-sizing:border-box}body{margin:0;background:#f4f7f5}.hero{background:#174c45;color:white;padding:48px max(22px,calc((100% - 1080px)/2))}.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}h1{font-size:clamp(2rem,5vw,3rem);margin:14px 0 10px}.hero p{max-width:650px;line-height:1.6;color:#e0ece7}.wrap{max-width:1080px;margin:auto;padding:28px 20px 55px}.filters{display:grid;grid-template-columns:1fr 260px;gap:12px;margin-bottom:22px}input,select{width:100%;padding:14px;border:1px solid #cbd8d1;border-radius:11px;background:white;font:inherit}h2{font-size:1.1rem}.summary{display:flex;justify-content:space-between;align-items:center;gap:10px}.count{color:#62736c;font-size:.85rem}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:white;border:1px solid #dfe8e2;border-radius:15px;padding:19px;min-height:205px;display:flex;flex-direction:column;box-shadow:0 3px 14px #12302509}.top{display:flex;justify-content:space-between}.symbol{width:44px;height:44px;border-radius:12px;background:#dcebe5;display:grid;place-items:center;font-size:1.4rem}.code{font-size:.72rem;color:#718179;font-weight:700}.card h3{margin:16px 0 5px}.lab{font-size:.86rem;color:#63756d}.bottom{margin-top:auto;padding-top:20px;display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:.72rem;color:#315f4b;background:#edf4ef;padding:6px 9px;border-radius:99px}.btn{background:#174c45;color:white;text-decoration:none;padding:10px 13px;border-radius:9px;font-size:.84rem;font-weight:650}.empty{display:none;padding:35px;text-align:center;border:1px dashed #c9d8cf;border-radius:14px;color:#61736a}.note{margin-top:24px;padding:14px;background:#eaf2ed;border:1px solid #d6e5da;border-radius:12px;color:#355d48;font-size:.84rem;line-height:1.5}.footer{margin-top:30px;padding-top:18px;border-top:1px solid #dde7e0;color:#718078;font-size:.8rem}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.filters,.grid{grid-template-columns:1fr}.hero{padding:35px 22px}}
+:root {
+  --site-primary: #174C45;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #DCEBE5;
+  --site-on-secondary: #183A34;
+  --site-background: #F4F7F5;
+  --site-on-background: #172B27;
+  --site-font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--site-font-body);
+  background: var(--site-background);
+  color: var(--site-on-background);
+}
+
+.app {
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+/* LOGO DE FONDO */
+.watermark {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .055;
+  z-index: 0;
+}
+
+.watermark img {
+  display: block;
+  width: min(980px, 92vw);
+  height: auto;
+}
+
+.hero, .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ENCABEZADO */
+.hero {
+  background: var(--site-primary);
+  color: var(--site-on-primary);
+  padding: clamp(28px, 6vw, 64px) max(22px, calc((100vw - 1120px)/2));
+  position: relative;
+  overflow: hidden;
+}
+
+.hero:after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50%;
+  right: -90px;
+  top: -180px;
+  pointer-events: none;
+}
+
+/* LOGO SUPERIOR */
+.brand-logo {
+  display: block;
+  width: min(430px, 100%);
+  height: auto;
+  margin: 0 0 24px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-size: .72rem;
+  font-weight: 750;
+  opacity: .78;
+}
+
+h1 {
+  font: 750 2.3rem/1.08 var(--site-font-heading);
+  max-width: 700px;
+  margin: 13px 0 12px;
+  letter-spacing: -.045em;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 660px;
+  color: rgba(255,255,255,.83);
+  line-height: 1.6;
+}
+
+/* CONTENIDO */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 30px 22px 60px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(190px, 260px);
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.search-wrap { position: relative; }
+
+.search-wrap svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64766F;
+}
+
+input, select {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #CBD8D1;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #172B27;
+  font: inherit;
+  padding: 0 14px;
+  outline: none;
+}
+
+input { padding-left: 45px; }
+
+input:focus, select:focus {
+  border-color: #347A6C;
+  box-shadow: 0 0 0 3px rgba(52,122,108,.15);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 18px;
+}
+
+.summary h2 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.count {
+  font-size: .84rem;
+  color: #62736C;
+}
+
+/* TARJETAS DE EQUIPOS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid #DFE8E2;
+  border-radius: 16px;
+  padding: 19px;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  box-shadow: 0 3px 14px rgba(18,48,37,.035);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.iconbox {
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: var(--site-secondary);
+  color: var(--site-on-secondary);
+  flex: none;
+}
+
+.code {
+  color: #718179;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.card h3 {
+  margin: 16px 0 5px;
+  font-size: 1.08rem;
+}
+
+.lab {
+  color: #63756D;
+  font-size: .86rem;
+}
+
+.card-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 6px 9px;
+  font-size: .72rem;
+  font-weight: 700;
+  background: #EDF4EF;
+  color: #315F4B;
+}
+
+.link {
+  border: 0;
+  border-radius: 10px;
+  background: var(--site-primary);
+  color: var(--site-on-primary);
+  font: 650 .84rem var(--site-font-body);
+  padding: 10px 13px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link:hover { filter: brightness(1.1); }
+
+.link:focus-visible {
+  outline: 3px solid #D39B39;
+  outline-offset: 3px;
+}
+
+.empty {
+  display: none;
+  padding: 38px 18px;
+  text-align: center;
+  border: 1px dashed #C9D8CF;
+  border-radius: 16px;
+  color: #61736A;
+}
+
+.footer {
+  border-top: 1px solid #DDE7E0;
+  margin-top: 34px;
+  padding-top: 18px;
+  color: #718078;
+  font-size: .8rem;
+  line-height: 1.55;
+}
+
+.notice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #EAF2ED;
+  border: 1px solid #D6E5DA;
+  border-radius: 12px;
+  padding: 13px 15px;
+  color: #355D48;
+  font-size: .83rem;
+  line-height: 1.5;
+  margin-top: 22px;
+}
+
+/* ADAPTACIÓN A CELULARES */
+@media (max-width:800px) {
+  .grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:560px) {
+  .toolbar { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding: 34px 22px; }
+  h1 { font-size: 2rem; }
+  .container { padding-top: 22px; }
+  .brand-logo { width: 100%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 24px rgba(18,48,37,.09);
+  }
+}
 </style>
 </head>
+
 <body>
-<header class="hero"><div class="eyebrow">Portal de consulta · Laboratorios</div><h1>Consulta la disponibilidad de equipos</h1><p>Busca el equipo que necesitas y abre su calendario para revisar los horarios reservados y disponibles.</p></header>
-<main class="wrap">
-<section class="filters"><input id="search" type="search" placeholder="Buscar por nombre o código..." aria-label="Buscar equipo"><select id="labFilter" aria-label="Filtrar por laboratorio"><option value="">Todos los laboratorios</option></select></section>
-<div class="summary"><h2>Equipos disponibles para consulta</h2><span class="count" id="count"></span></div>
-<section class="grid" id="grid" aria-label="Catálogo de equipos"></section><div class="empty" id="empty">No encontramos equipos con esos criterios.</div>
-<div class="note">Este portal es únicamente de consulta. Para reservar un equipo, sigue el procedimiento establecido por tu laboratorio. La disponibilidad que aparece en Outlook puede actualizarse con unos minutos de demora.</div>
-<footer class="footer">Portal de consulta de equipos institucionales. Si tienes dudas sobre una reserva, comunícate con el responsable del laboratorio.</footer>
-</main>
+<div class="app" id="app">
+
+  <!-- MARCA DE AGUA DEL LOGO -->
+  <div class="watermark" aria-hidden="true">
+    <img src="logo-ecfn.png" alt="">
+  </div>
+
+  <!-- ENCABEZADO -->
+  <header class="hero">
+    <img class="brand-logo"
+         src="logo-ecfn.png"
+         alt="School of Physical Sciences and Nanotechnology">
+
+    <div class="eyebrow">Portal de consulta · Laboratorios</div>
+
+    <h1>Consulta la disponibilidad de equipos</h1>
+
+    <p>
+      Busca el equipo que necesitas y abre su calendario
+      para revisar los horarios reservados y disponibles.
+    </p>
+  </header>
+
+  <!-- CATÁLOGO -->
+  <main class="container">
+
+    <section class="toolbar" aria-label="Filtros de equipos">
+
+      <div class="search-wrap">
+        <svg width="19" height="19" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor"
+             stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-4-4"></path>
+        </svg>
+
+        <input id="search" type="search"
+               placeholder="Buscar por nombre o código..."
+               aria-label="Buscar equipo">
+      </div>
+
+      <select id="labFilter" aria-label="Filtrar por laboratorio">
+        <option value="">Todos los laboratorios</option>
+      </select>
+
+    </section>
+
+    <div class="summary">
+      <h2>Equipos disponibles para consulta</h2>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+
+    <section class="grid" id="grid"
+             aria-label="Catálogo de equipos"></section>
+
+    <div class="empty" id="empty">
+      No encontramos equipos con esos criterios.
+      Prueba otra búsqueda o selecciona otro laboratorio.
+    </div>
+
+    <div class="notice">
+      <span aria-hidden="true">ⓘ</span>
+      <span>
+        Este portal es únicamente de consulta. Para reservar
+        un equipo, sigue el procedimiento establecido por tu
+        laboratorio. La disponibilidad que aparece en Outlook
+        puede actualizarse con unos minutos de demora.
+      </span>
+    </div>
+
+    <footer class="footer">
+      Portal de consulta de equipos institucionales.
+      Si tienes dudas sobre una reserva, comunícate con el
+      responsable del laboratorio.
+    </footer>
+
+  </main>
+</div>
+
 <script>
-// Sustituye los ejemplos por tus equipos. Pega el enlace HTML público de Outlook en calendarUrl.
-const equipment=[
-{code:"EQ-001",name:"Estufa",lab:"Laboratorio de Química",icon:"♨",calendarUrl:""},
-{code:"EQ-002",name:"Balanza analítica",lab:"Laboratorio de Química",icon:"⚖",calendarUrl:""},
-{code:"EQ-003",name:"Microscopio",lab:"Laboratorio de Biología",icon:"⌕",calendarUrl:""},
-{code:"EQ-004",name:"Centrífuga",lab:"Laboratorio de Biología",icon:"⟳",calendarUrl:""},
-{code:"EQ-005",name:"Equipo de cómputo",lab:"Sala de cómputo",icon:"▣",calendarUrl:""},
-{code:"EQ-006",name:"Espectrofotómetro",lab:"Laboratorio de Análisis",icon:"◉",calendarUrl:""}
+// REEMPLAZA LOS EJEMPLOS POR TUS EQUIPOS REALES.
+// Pega el enlace HTML público de Outlook en calendarUrl.
+
+const equipment = [
+  {
+    code: "EQ-001",
+    name: "Estufa",
+    lab: "Laboratorio de Química",
+    icon: "♨",
+    calendarUrl: ""
+  },
+  {
+    code: "EQ-002",
+    name: "Balanza analítica",
+    lab: "Laboratorio de Química",
+    icon: "⚖",
+    calendarUrl: ""
+  },
+  {
+    code: "EQ-003",
+    name: "Microscopio",
+    lab: "Laboratorio de Biología",
+    icon: "⌕",
+    calendarUrl: ""
+  },
+  {
+    code: "EQ-004",
+    name: "Centrífuga",
+    lab: "Laboratorio de Biología",
+    icon: "⟳",
+    calendarUrl: ""
+  },
+  {
+    code: "EQ-005",
+    name: "Equipo de cómputo",
+    lab: "Sala de cómputo",
+    icon: "▣",
+    calendarUrl: ""
+  },
+  {
+    code: "EQ-006",
+    name: "Espectrofotómetro",
+    lab: "Laboratorio de Análisis",
+    icon: "◉",
+    calendarUrl: ""
+  }
 ];
-const grid=document.querySelector("#grid"),search=document.querySelector("#search"),labFilter=document.querySelector("#labFilter"),count=document.querySelector("#count"),empty=document.querySelector("#empty");
-[...new Set(equipment.map(x=>x.lab))].sort((a,b)=>a.localeCompare(b,"es")).forEach(lab=>{const o=document.createElement("option");o.value=lab;o.textContent=lab;labFilter.append(o)});
-function render(){const q=search.value.trim().toLocaleLowerCase("es"),lab=labFilter.value;const list=equipment.filter(x=>(!lab||x.lab===lab)&&`${x.name} ${x.code} ${x.lab}`.toLocaleLowerCase("es").includes(q));grid.innerHTML="";list.forEach(x=>{const card=document.createElement("article");card.className="card";const top=document.createElement("div");top.className="top";const symbol=document.createElement("div");symbol.className="symbol";symbol.textContent=x.icon;const code=document.createElement("span");code.className="code";code.textContent=x.code;top.append(symbol,code);const h=document.createElement("h3");h.textContent=x.name;const p=document.createElement("div");p.className="lab";p.textContent=x.lab;const bottom=document.createElement("div");bottom.className="bottom";const tag=document.createElement("span");tag.className="tag";tag.textContent="Consulta pública";const a=document.createElement("a");a.className="btn";a.textContent="Ver calendario ↗";if(x.calendarUrl){a.href=x.calendarUrl;a.target="_blank";a.rel="noopener noreferrer"}else{a.href="#";a.addEventListener("click",e=>{e.preventDefault();alert("Pega el enlace HTML público del calendario en calendarUrl para activar este equipo.")})}bottom.append(tag,a);card.append(top,h,p,bottom);grid.append(card)});count.textContent=`${list.length} de ${equipment.length} equipos`;empty.style.display=list.length?"none":"block"}
-search.addEventListener("input",render);labFilter.addEventListener("change",render);render();
+
+const grid = document.getElementById('grid');
+const search = document.getElementById('search');
+const labFilter = document.getElementById('labFilter');
+const count = document.getElementById('count');
+const empty = document.getElementById('empty');
+
+const uniqueLabs = [
+  ...new Set(equipment.map(item => item.lab))
+].sort((a,b) => a.localeCompare(b,'es'));
+
+uniqueLabs.forEach(lab => {
+  const option = document.createElement('option');
+  option.value = lab;
+  option.textContent = lab;
+  labFilter.appendChild(option);
+});
+
+function render() {
+  const q = search.value.trim().toLocaleLowerCase('es');
+  const lab = labFilter.value;
+
+  const filtered = equipment.filter(item =>
+    (!lab || item.lab === lab) &&
+    `${item.name} ${item.code} ${item.lab}`
+      .toLocaleLowerCase('es').includes(q)
+  );
+
+  grid.innerHTML = '';
+
+  filtered.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    const top = document.createElement('div');
+    top.className = 'card-top';
+
+    const icon = document.createElement('div');
+    icon.className = 'iconbox';
+    icon.setAttribute('aria-hidden','true');
+    icon.style.fontSize = '1.45rem';
+    icon.textContent = item.icon;
+
+    const code = document.createElement('span');
+    code.className = 'code';
+    code.textContent = item.code;
+
+    top.append(icon, code);
+
+    const title = document.createElement('h3');
+    title.textContent = item.name;
+
+    const subtitle = document.createElement('div');
+    subtitle.className = 'lab';
+    subtitle.textContent = item.lab;
+
+    const bottom = document.createElement('div');
+    bottom.className = 'card-bottom';
+
+    const status = document.createElement('span');
+    status.className = 'pill';
+    status.textContent = 'Consulta pública';
+
+    const link = document.createElement('a');
+    link.className = 'link';
+    link.textContent = 'Ver calendario ↗';
+
+    if (item.calendarUrl) {
+      link.href = item.calendarUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    } else {
+      link.href = '#';
+      link.setAttribute(
+        'aria-label',
+        `Enlace pendiente para ${item.name}`
+      );
+
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        alert(
+          'Este es un equipo de ejemplo. Para activarlo, ' +
+          'pega el enlace HTML público de su calendario ' +
+          'en la propiedad calendarUrl de este registro.'
+        );
+      });
+    }
+
+    bottom.append(status, link);
+    card.append(top, title, subtitle, bottom);
+    grid.appendChild(card);
+  });
+
+  count.textContent =
+    `${filtered.length} de ${equipment.length} equipos`;
+
+  empty.style.display = filtered.length ? 'none' : 'block';
+}
+
+search.addEventListener('input', render);
+labFilter.addEventListener('change', render);
+
+render();
 </script>
-</body></html>
+
+</body>
+</html>
