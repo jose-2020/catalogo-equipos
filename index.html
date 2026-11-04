@@ -107,6 +107,33 @@ h1 {
   line-height: 1.6;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 17px;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 10px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 650;
+  background: rgba(255,255,255,.12);
+  transition: background .2s ease;
+}
+
+.hero-button:hover {
+  background: rgba(255,255,255,.25);
+}
+
+  
 /* CONTENIDO */
 .container {
   max-width: 1120px;
@@ -349,7 +376,17 @@ input:focus, select:focus {
         Este portal es únicamente de consulta. Para reservar
         un equipo, sigue el Procedimiento de Reservas.
       </span>
-    </div>    
+    </div> 
+
+    <div class="hero-actions">
+  <a class="hero-button" href="procedimiento-reservas.pdf" target="_blank" rel="noopener noreferrer">
+    📄 Procedimiento de reserva
+  </a>
+  <a class="hero-button" href="horario-clases.png" target="_blank" rel="noopener noreferrer">
+    🗓️ Horario de clases
+  </a>
+</div>
+    
   </header>
 
   <!-- CATÁLOGO -->
