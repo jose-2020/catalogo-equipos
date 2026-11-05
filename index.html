@@ -450,48 +450,223 @@ input:focus, select:focus {
 // Pega el enlace HTML público de Outlook en calendarUrl.
 
 const equipment = [
-  {
-    code: "EQ-001",
-    name: "Estufa",
-    lab: "Laboratorio Nanotecnología",
-    icon: "♨",
-    calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/224b386a3a43431d9690375a69692e8d3723895110498198321/calendar.html"
-  },
-  {
-    code: "EQ-002",
-    name: "Balanza analítica",
-    lab: "Laboratorio Nanotecnología",
-    icon: "⚖",
-    calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/110abc505bbd47dcbff2f0280c70975b13514514542851291987/calendar.html"
-  },
-  {
-    code: "EQ-003",
-    name: "Microscopía Eléctronica de Barrido",
-    lab: "Laboratorio AME",
-    icon: "⌕",
-    calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/e8c99ebd4a4c49f596e5438825b4e6a65027320456408993099/calendar.html"
-  },
-  {
-    code: "EQ-004",
-    name: "Centrífuga",
-    lab: "Laboratorio de Biología",
-    icon: "⟳",
-    calendarUrl: ""
-  },
-  {
-    code: "EQ-005",
-    name: "Equipo de cómputo",
-    lab: "Sala de cómputo",
-    icon: "▣",
-    calendarUrl: ""
-  },
-  {
-    code: "EQ-006",
-    name: "Espectrofotómetro",
-    lab: "Laboratorio de Análisis",
-    icon: "◉",
-    calendarUrl: ""
-  }
+	{
+	  code: "EQ-001",
+	  name: "Agitador vórtex",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🌀",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/dd29f036b58d497580bea1cf075b12871857539104701396084/calendar.html"
+	},
+	{
+	  code: "EQ-002",
+	  name: "Atomic Force Microscopy (AFM)",
+	  lab: "Laboratorio La Conga",
+	  icon: "🔬",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/ce7bd81e54944399b138ec2bc87c80912129393341380972033/calendar.html"
+	},
+	{
+	  code: "EQ-003",
+	  name: "Baño de ultrasonido",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "〰️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/4aa1ce5dcd83498db6f9d07c6c8e990f15929768797434380312/calendar.html"
+	},
+	{
+	  code: "EQ-004",
+	  name: "Balanza analítica",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "⚖️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/9a6c98c5a3e14e6085a9117698ee832517634313207195250831/calendar.html"
+	},
+	{
+	  code: "EQ-005",
+	  name: "Campana",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🧪",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/4927fb11de5641cc87058a4302eb39263174885325741574995/calendar.html"
+	},
+	{
+	  code: "EQ-006",
+	  name: "Chemical Vapor Deposition (CVD)",
+	  lab: "Laboratorio de Nanofabricación",
+	  icon: "⚗️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/c6ad40633546432d9eed8ba61e043918744499740502282306/calendar.html"
+	},
+	{
+	  code: "EQ-007",
+	  name: "Compresor de aire",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "💨",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/87488a4292af448395df97727feb94ed3905585344458579258/calendar.html"
+	},
+	{
+	  code: "EQ-008",
+	  name: "Conductímetro / pH metro",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "📟",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/5f51a7a395804bd99d395f9a2452240010522877587125685035/calendar.html"
+	},
+	{
+	  code: "EQ-009",
+	  name: "Conexión a vacío",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🌀",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/a32393fe1bcb464f840b4a2ec2bdddb16299970228023977962/calendar.html"
+	},
+	{
+	  code: "EQ-010",
+	  name: "Estufa",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🌡️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/6a925c1b644d40d38a0e603d57ad933c2413609742462571168/calendar.html"
+	},
+	{
+	  code: "EQ-011",
+	  name: "Fotolitógrafo",
+	  lab: "Laboratorio de AME",
+	  icon: "🔦",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/b95f7a8c46d64f4d95855c52602d1a9017685478196772130821/calendar.html"
+	},
+	{
+	  code: "EQ-012",
+	  name: "Horno de vacío",
+	  lab: "Laboratorio de AME",
+	  icon: "🔥",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/d5aec884426d412c95d37a830eb03bee15402286460817532264/calendar.html"
+	},
+	{
+	  code: "EQ-013",
+	  name: "Homogeneizador",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "⚙️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/d3328124651243208391b780f6c8623c2404231124220709925/calendar.html"
+	},
+	{
+	  code: "EQ-014",
+	  name: "Manta calefactora",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "♨️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/e4b3f6a846b3478985f5a2ab1f59f6222264915470387654338/calendar.html"
+	},
+	{
+	  code: "EQ-015",
+	  name: "Microcentrifugadora",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🧫",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/50ef1dc0e36f4548bb592b670b7dcf6816886992134213745796/calendar.html"
+	},
+	{
+	  code: "EQ-016",
+	  name: "Molino de bolas",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "⚙️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/9759f4a28a5f4488b0df871985dad7634295446252386197371/calendar.html"
+	},
+	{
+	  code: "EQ-017",
+	  name: "Mufla",
+	  lab: "Laboratorio de Nanofabricación",
+	  icon: "🔥",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/aaeec7f261984d93a879b64e3448fbb91260416234335727895/calendar.html"
+	},
+	{
+	  code: "EQ-018",
+	  name: "Placa de calentamiento y agitación",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "♨️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/8de1b9f6f6b64aa9804ae29c383236e76754874693182438437/calendar.html"
+	},
+	{
+	  code: "EQ-019",
+	  name: "Potenciostato",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "⚡",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/518c9f71a60a4aa1af1c31529e32b89c6692327944405722793/calendar.html"
+	},
+	{
+	  code: "EQ-020",
+	  name: "Prensa",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🔩",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/0a8fe6a25a084b74bdc0e102e7b2a25c10935495142863626389/calendar.html"
+	},
+	{
+	  code: "EQ-021",
+	  name: "Proyector",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "📽️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/216afe828e6346898c5f90b28a8e479d12656512117392383940/calendar.html"
+	},
+	{
+	  code: "EQ-022",
+	  name: "RAMAN",
+	  lab: "Laboratorio de AME",
+	  icon: "🌈",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/2e1643ceb2fd49eeafc16bff6781c6584280985705283013676/calendar.html"
+	},
+	{
+	  code: "EQ-023",
+	  name: "Rotavapor",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "⚗️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/c993c493de9e416299a066e584748d0a5276456846356854734/calendar.html"
+	},
+	{
+	  code: "EQ-024",
+	  name: "SEM",
+	  lab: "Laboratorio de AME",
+	  icon: "🔬",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/d7ab592a57ef485bbf52f7b238d9eb928349630016145610514/calendar.html"
+	},
+	{
+	  code: "EQ-025",
+	  name: "Sistema de reflujo",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🧪",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/24fadd2c136d471fa21e0e30b712429916949650421696679091/calendar.html"
+	},
+	{
+	  code: "EQ-026",
+	  name: "Sputtering",
+	  lab: "Laboratorio de Nanofabricación",
+	  icon: "⚡",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/20a9fb49a84a4cd49c455b92a41378249573999611642827100/calendar.html"
+	},
+	{
+	  code: "EQ-027",
+	  name: "Spin Coater",
+	  lab: "Laboratorio de AME",
+	  icon: "🌀",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/809e823e843e480aa630482e567be32a5076817823759764214/calendar.html"
+	},
+	{
+	  code: "EQ-028",
+	  name: "Tamizadora",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "▦",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/c9fc918fc8e0464a8ad6b32e3ba8e4066247876163902521702/calendar.html"
+	},
+	{
+	  code: "EQ-029",
+	  name: "UV-Vis",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "☀️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/3a086bc29215452186945d7f0072e6f78601834370757915485/calendar.html"
+	},
+	{
+	  code: "EQ-030",
+	  name: "UV-Vis Fluorómetro",
+	  lab: "Laboratorio de Nanotecnología",
+	  icon: "🌈",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/c6dc5a4f5b064a3f971037d48c1daad78251902335940852877/calendar.html"
+	},
+	{
+	  code: "EQ-031",
+	  name: "XPS",
+	  lab: "Laboratorio de AME",
+	  icon: "⚛️",
+	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/6b37bf82d8ad4375baca16bc01fd1e2e2892657836476054976/calendar.html"
+	}
 ];
 
 const grid = document.getElementById('grid');
