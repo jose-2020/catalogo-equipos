@@ -809,6 +809,105 @@ const translations = {
     count: (shown, total) => `${shown} of ${total} items`
   }
 };
+
+const equipmentTranslations = {
+  es: {
+    "EQ-001": "Agitador vórtex",
+    "EQ-002": "Microscopio de fuerza atómica (AFM)",
+    "EQ-003": "Baño de ultrasonido",
+    "EQ-004": "Balanza analítica",
+    "EQ-005": "Cámara de extracción de gases",
+    "EQ-006": "Horno de tubo (CVD)",
+    "EQ-007": "Compresor de aire",
+    "EQ-008": "Conductímetro / pH metro",
+    "EQ-009": "Conexión a vacío",
+    "EQ-010": "Estufa",
+    "EQ-011": "Fotolitógrafo",
+    "EQ-012": "Horno de vacío",
+    "EQ-013": "Homogeneizador",
+    "EQ-014": "Manta calefactora",
+    "EQ-015": "Microcentrifugadora",
+    "EQ-016": "Molino de bolas",
+    "EQ-017": "Mufla",
+    "EQ-018": "Placa de calentamiento y agitación",
+    "EQ-019": "Potenciostato",
+    "EQ-020": "Prensa",
+    "EQ-021": "Proyector",
+    "EQ-022": "Espectrómetro Raman",
+    "EQ-023": "Rotavapor",
+    "EQ-024": "Microscopio electrónico de barrido (SEM)",
+    "EQ-025": "Sistema de reflujo",
+    "EQ-026": "Sistema de sputtering",
+    "EQ-027": "Spin Coater",
+    "EQ-028": "Tamizadora analítica",
+    "EQ-029": "Espectrofotómetro UV-Vis",
+    "EQ-030": "Fluorómetro UV-Vis",
+    "EQ-031": "Espectrómetro de fotoelectrones de rayos X (XPS)"
+  },
+
+  en: {
+    "EQ-001": "Vortex Mixer",
+    "EQ-002": "Atomic Force Microscope (AFM)",
+    "EQ-003": "Ultrasonic Bath",
+    "EQ-004": "Analytical Balance",
+    "EQ-005": "Fume Hood",
+    "EQ-006": "Tube Furnace (CVD)",
+    "EQ-007": "Air Compressor",
+    "EQ-008": "Conductivity / pH Meter",
+    "EQ-009": "Vacuum Connection",
+    "EQ-010": "Laboratory Oven",
+    "EQ-011": "Photolithography System",
+    "EQ-012": "Vacuum Oven",
+    "EQ-013": "Homogenizer",
+    "EQ-014": "Heating Mantle",
+    "EQ-015": "Microcentrifuge",
+    "EQ-016": "Ball Mill",
+    "EQ-017": "Muffle Furnace",
+    "EQ-018": "Hotplate Stirrer",
+    "EQ-019": "Potentiostat",
+    "EQ-020": "Press",
+    "EQ-021": "Projector",
+    "EQ-022": "Raman Spectrometer",
+    "EQ-023": "Rotary Evaporator",
+    "EQ-024": "Scanning Electron Microscope (SEM)",
+    "EQ-025": "Reflux System",
+    "EQ-026": "Sputtering System",
+    "EQ-027": "Spin Coater",
+    "EQ-028": "Analytical Sieve Shaker",
+    "EQ-029": "UV-Vis Spectrophotometer",
+    "EQ-030": "UV-Vis Fluorometer",
+    "EQ-031": "X-ray Photoelectron Spectrometer (XPS)"
+  }
+};
+
+const labTranslations = {
+  es: {
+    "Laboratorio de Nanotecnología": "Laboratorio de Nanotecnología",
+    "Laboratorio La Conga": "Laboratorio La Conga",
+    "Laboratorio de Nanofabricación": "Laboratorio de Nanofabricación",
+    "Laboratorio de AME": "Laboratorio de AME",
+    "TEMPORALMENTE en el Laboratorio de AME":
+      "TEMPORALMENTE en el Laboratorio de AME"
+  },
+
+  en: {
+    "Laboratorio de Nanotecnología": "Nanotechnology Laboratory",
+    "Laboratorio La Conga": "La Conga Laboratory",
+    "Laboratorio de Nanofabricación": "Nanofabrication Laboratory",
+    "Laboratorio de AME": "AME Laboratory",
+    "TEMPORALMENTE en el Laboratorio de AME":
+      "TEMPORARILY located in the AME Laboratory"
+  }
+};
+
+function getEquipmentName(item) {
+  return equipmentTranslations[currentLanguage][item.code] || item.name;
+}
+
+function getLabName(lab) {
+  return labTranslations[currentLanguage][lab] || lab;
+}	
+	
 function changeLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language;
@@ -828,11 +927,7 @@ function changeLanguage(language) {
   document.getElementById('lang-es').classList.toggle('active', language === 'es');
   document.getElementById('lang-en').classList.toggle('active', language === 'en');
 
-  const allLabsOption = labFilter.querySelector('option[value=""]');
-  if (allLabsOption) {
-    allLabsOption.textContent = t.allLabs;
-  }
-
+  updateLabFilter();
   render();
 }
 
@@ -855,12 +950,27 @@ const uniqueLabs = [
   ...new Set(equipment.map(item => item.lab))
 ].sort((a,b) => a.localeCompare(b,'es'));
 
-uniqueLabs.forEach(lab => {
-  const option = document.createElement('option');
-  option.value = lab;
-  option.textContent = lab;
-  labFilter.appendChild(option);
-});
+function updateLabFilter() {
+  const selectedLab = labFilter.value;
+
+  labFilter.innerHTML = '';
+
+  const allOption = document.createElement('option');
+  allOption.value = '';
+  allOption.textContent = translations[currentLanguage].allLabs;
+  labFilter.appendChild(allOption);
+
+  uniqueLabs.forEach(lab => {
+    const option = document.createElement('option');
+    option.value = lab;
+    option.textContent = getLabName(lab);
+    labFilter.appendChild(option);
+  });
+
+  labFilter.value = selectedLab;
+}
+
+updateLabFilter();
 
 function render() {
   const q = search.value.trim().toLocaleLowerCase(
@@ -870,16 +980,25 @@ function render() {
   const t = translations[currentLanguage];
   const lab = labFilter.value;
 
-  const filtered = equipment.filter(item =>
-    (!lab || item.lab === lab) &&
-    `${item.name} ${item.code} ${item.lab}`
-      .toLocaleLowerCase('es').includes(q)
-  );
+  const filtered = equipment.filter(item => {
+  	const searchableText = [
+ 	   item.name,
+    	getEquipmentName(item),
+    	item.code,
+    	item.lab,
+    	getLabName(item.lab)
+  	].join(' ').toLocaleLowerCase(
+    	currentLanguage === 'es' ? 'es' : 'en'
+  	);
+
+  	return (!lab || item.lab === lab) &&
+         	searchableText.includes(q);
+  });
 
   grid.innerHTML = '';
 
   filtered.forEach(item => {
-    const card = document.createElement('article');
+   	 const card = document.createElement('article');
     card.className = 'card';
 
     const top = document.createElement('div');
@@ -898,11 +1017,11 @@ function render() {
     top.append(icon, code);
 
     const title = document.createElement('h3');
-    title.textContent = item.name;
+	title.textContent = getEquipmentName(item);
 
     const subtitle = document.createElement('div');
-    subtitle.className = 'lab';
-    subtitle.textContent = item.lab;
+	subtitle.className = 'lab';
+	subtitle.textContent = getLabName(item.lab);
 
     const bottom = document.createElement('div');
     bottom.className = 'card-bottom';
