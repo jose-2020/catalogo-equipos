@@ -57,6 +57,32 @@ body {
 }
 
 /* ENCABEZADO */
+/* SELECTOR DE IDIOMA */
+.language-switch {
+  position: absolute;
+  top: 16px;
+  right: max(22px, calc((100vw - 1120px)/2));
+  z-index: 5;
+  display: flex;
+  gap: 6px;
+}
+
+.language-button {
+  border: 1px solid rgba(255,255,255,.65);
+  border-radius: 7px;
+  background: rgba(255,255,255,.12);
+  color: white;
+  font-size: 1.15rem;
+  padding: 5px 8px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.language-button:hover,
+.language-button.active {
+  background: rgba(255,255,255,.3);
+  border-color: white;
+}
 .hero {
   background: var(--site-primary);
   color: var(--site-on-primary);
@@ -378,7 +404,7 @@ input:focus, select:focus {
 @media (max-width:560px) {
   .toolbar { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }
-  .hero { padding: 34px 22px; }
+  .hero { padding: 65px 22px 34px; }
   h1 { font-size: 2rem; }
   .container { padding-top: 22px; }
   .brand-logo { width: 100%; }
@@ -406,20 +432,30 @@ input:focus, select:focus {
 
   <!-- ENCABEZADO -->
   <header class="hero">
+	<div class="language-switch">
+  		<button id="lang-es" class="language-button active"
+   			    type="button" aria-label="Ver en español" title="Español">
+    		🇪🇨
+  		</button>
+  		<button id="lang-en" class="language-button"
+   		       	type="button" aria-label="View in English" title="English">
+    		🇬🇧
+  		</button>
+	</div>
     <img class="brand-logo"
          src="logo-ecfn.png"
          alt="School of Physical Sciences and Nanotechnology">
 
-    <div class="eyebrow">Portal de consulta · Laboratorios del edificio E2E3</div>
+    <div class="eyebrow" data-i18n="eyebrow">Portal de consulta · Laboratorios del edificio E2E3</div>
 
-    <h1>Consulta la disponibilidad de equipos</h1>
+    <h1 data-i18n="title">Consulta la disponibilidad de equipos</h1>
 
-    <p>
+    <p data-i18n="description">
       Busca el equipo requerido y abre su calendario
       para revisar los horarios reservados y disponibles.
     </p>
 
-    <div class="notice notice--large">
+    <div class="notice notice--large" data-i18n="notice">
       <span aria-hidden="true">ⓘ</span>
       <span>
         Este portal es únicamente de consulta. Para reservar
@@ -428,10 +464,10 @@ input:focus, select:focus {
     </div> 
 
     <div class="hero-actions">
-  <a class="hero-button" href="procedimiento-reservas.pdf" target="_blank" rel="noopener noreferrer">
+  <a class="hero-button" href="procedimiento-reservas.pdf" target="_blank" rel="noopener noreferrer" data-i18n="procedure">
     📄 Procedimiento de Reserva
   </a>
-  <a class="hero-button" href="horario-clases.jpeg" target="_blank" rel="noopener noreferrer">
+  <a class="hero-button" href="horario-clases.jpeg" target="_blank" rel="noopener noreferrer" data-i18n="schedule">
     🗓️ Horario de Laboratorios de Docencia
   </a>
 </div>
@@ -451,7 +487,7 @@ input:focus, select:focus {
           <path d="m20 20-4-4"></path>
         </svg>
 
-        <input id="search" type="search"
+        <input id="search" type="search" data-i18n-placeholder="search"
                placeholder="Buscar por nombre o código..."
                aria-label="Buscar equipo">
       </div>
@@ -463,14 +499,14 @@ input:focus, select:focus {
     </section>
 
     <div class="summary">
-      <h2>Equipos disponibles para consulta</h2>
+      <h2 data-i18n="equipmentTitle">Equipos disponibles para consulta </h2>
       <span class="count" id="count" aria-live="polite"></span>
     </div>
 
     <section class="grid" id="grid"
              aria-label="Catálogo de equipos"></section>
 
-    <div class="empty" id="empty">
+    <div class="empty" id="empty" data-i18n="empty">
       No encontramos equipos con esos criterios.
       Prueba otra búsqueda o selecciona otro laboratorio.
     </div>
@@ -485,15 +521,15 @@ input:focus, select:focus {
       </span>
     </div>-->
 
-    <footer class="footer">
+    <footer class="footer" data-i18n="footer">
       Portal de consulta de equipos institucionales.
       Si tienes dudas sobre una reserva, comunícate con el
       responsable del laboratorio.
     </footer>
 
 	<section class="suggestion-section">
-  <h2>💡 Buzón de sugerencias</h2>
-  <p>
+  <h2 data-i18n="suggestionsTitle">💡 Buzón de sugerencias</h2>
+  <p data-i18n="suggestionsDescription">
     Tu opinión nos ayuda a mejorar. 
     Comparte tus ideas o sugerencias para mejorar
     los servicios y equipos de nuestros laboratorios.
@@ -503,12 +539,12 @@ input:focus, select:focus {
     class="suggestion-button"
     href="https://forms.cloud.microsoft/r/QD6Yv3qMAP?origin=lprLink"
     target="_blank"
-    rel="noopener noreferrer">
+    rel="noopener noreferrer" data-i18n="suggestionsButton">
     ✉️ Enviar una sugerencia
   </a>
 </section>
 <section class="visitor-section">
-  <p>👥 Visitas al portal</p>
+  <p data-i18n="visits">👥 Visitas al portal</p>
   <div id="visitor-counter">Cargando contador...</div>
 </section>
 	  
@@ -738,7 +774,87 @@ const equipment = [
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/6b37bf82d8ad4375baca16bc01fd1e2e2892657836476054976/calendar.html"
 	}
 ];
+let currentLanguage = 'es';
 
+const translations = {
+  es: {
+    eyebrow: 'Portal de consulta · Laboratorios del edificio E2E3',
+    title: 'Consulta la disponibilidad de equipos',
+    description: 'Busca el equipo requerido y abre su calendario para revisar los horarios reservados y disponibles.',
+    notice: 'Este portal es únicamente de consulta. Para reservar un equipo, sigue el Procedimiento de Reserva.',
+    procedure: '📄 Procedimiento de Reserva',
+    schedule: '🗓️ Horario de Laboratorios de Docencia',
+    search: 'Buscar por nombre o código...',
+    allLabs: 'Todos los laboratorios',
+    equipmentTitle: 'Equipos disponibles para consulta',
+    empty: 'No encontramos equipos con esos criterios. Prueba otra búsqueda o selecciona otro laboratorio.',
+    footer: 'Portal de consulta de equipos institucionales. Si tienes dudas sobre una reserva, comunícate con el responsable del laboratorio.',
+    suggestionsTitle: '💡 Buzón de sugerencias',
+    suggestionsDescription: 'Tu opinión nos ayuda a mejorar. Comparte tus ideas o sugerencias para mejorar los servicios y equipos de nuestros laboratorios.',
+    suggestionsButton: '✉️ Enviar una sugerencia',
+    visits: '👥 Visitas al portal',
+    public: 'Consulta pública',
+    calendar: 'Ver calendario ↗',
+    count: (shown, total) => `${shown} de ${total} equipos`
+  },
+
+  en: {
+    eyebrow: 'Information Portal · E2E3 Building Laboratories',
+    title: 'Check Equipment Availability',
+    description: 'Find the equipment you need and open its calendar to check reserved and available time slots.',
+    notice: 'This portal is for consultation purposes only. To reserve equipment, please follow the Reservation Procedure.',
+    procedure: '📄 Reservation Procedure',
+    schedule: '🗓️ Teaching Laboratories Schedule',
+    search: 'Search by name or code...',
+    allLabs: 'All laboratories',
+    equipmentTitle: 'Equipment Available for Consultation',
+    empty: 'No equipment found matching your criteria. Try another search or select a different laboratory.',
+    footer: 'Institutional Equipment Information Portal. If you have questions about a reservation, please contact the laboratory manager.',
+    suggestionsTitle: '💡 Suggestion Box',
+    suggestionsDescription: 'Your feedback helps us improve. Share your ideas or suggestions to improve our laboratory services and equipment.',
+    suggestionsButton: '✉️ Submit a suggestion',
+    visits: '👥 Portal visits',
+    public: 'Public calendar',
+    calendar: 'View calendar ↗',
+    count: (shown, total) => `${shown} of ${total} items`
+  }
+};
+function changeLanguage(language) {
+  currentLanguage = language;
+  document.documentElement.lang = language;
+
+  const t = translations[language];
+
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.dataset.i18n;
+    element.textContent = t[key];
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    const key = element.dataset.i18nPlaceholder;
+    element.placeholder = t[key];
+  });
+
+  document.getElementById('lang-es').classList.toggle('active', language === 'es');
+  document.getElementById('lang-en').classList.toggle('active', language === 'en');
+
+  const allLabsOption = labFilter.querySelector('option[value=""]');
+  if (allLabsOption) {
+    allLabsOption.textContent = t.allLabs;
+  }
+
+  render();
+}
+
+document.getElementById('lang-es').addEventListener('click', () => {
+  changeLanguage('es');
+});
+
+document.getElementById('lang-en').addEventListener('click', () => {
+  changeLanguage('en');
+});
+	
+	
 const grid = document.getElementById('grid');
 const search = document.getElementById('search');
 const labFilter = document.getElementById('labFilter');
@@ -757,7 +873,11 @@ uniqueLabs.forEach(lab => {
 });
 
 function render() {
-  const q = search.value.trim().toLocaleLowerCase('es');
+  const q = search.value.trim().toLocaleLowerCase(
+  	currentLanguage === 'es' ? 'es' : 'en'
+  );
+	
+  const t = translations[currentLanguage];
   const lab = labFilter.value;
 
   const filtered = equipment.filter(item =>
@@ -799,11 +919,11 @@ function render() {
 
     const status = document.createElement('span');
     status.className = 'pill';
-    status.textContent = 'Consulta pública';
+    status.textContent = t.public;
 
     const link = document.createElement('a');
     link.className = 'link';
-    link.textContent = 'Ver calendario ↗';
+    link.textContent = t.calendar;
 
     if (item.calendarUrl) {
       link.href = item.calendarUrl;
@@ -831,8 +951,7 @@ function render() {
     grid.appendChild(card);
   });
 
-  count.textContent =
-    `${filtered.length} de ${equipment.length} equipos`;
+  count.textContent = t.count(filtered.length, equipment.length);
 
   empty.style.display = filtered.length ? 'none' : 'block';
 }
