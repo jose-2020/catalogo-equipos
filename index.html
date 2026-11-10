@@ -164,7 +164,24 @@ h1 {
 .suggestion-button:hover {
   opacity: .88;
 }
-	
+.visitor-section {
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+  color: var(--site-on-background);
+  font-size: .9rem;
+}
+
+.visitor-section p {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+#visitor-counter {
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+}	
   
 /* CONTENIDO */
 .container {
@@ -490,7 +507,11 @@ input:focus, select:focus {
     ✉️ Enviar una sugerencia
   </a>
 </section>
-
+<section class="visitor-section">
+  <p>👥 Visitas al portal</p>
+  <div id="visitor-counter">Cargando contador...</div>
+</section>
+	  
   </main>
 </div>
 
@@ -820,6 +841,18 @@ search.addEventListener('input', render);
 labFilter.addEventListener('change', render);
 
 render();
+</script>
+
+<script
+  data-goatcounter="https://catalogo-equipos.goatcounter.com/count"
+  src="https://gc.zgo.at/count.js">
+</script>
+
+<script>
+  window.goatcounter.visit_count({
+    append: '#visitor-counter',
+    path: 'TOTAL'
+  });
 </script>
 
 </body>
