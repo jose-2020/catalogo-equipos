@@ -849,10 +849,18 @@ render();
 </script>
 
 <script>
-  window.goatcounter.visit_count({
-    append: '#visitor-counter',
-    path: 'TOTAL'
-  });
+  function mostrarContador() {
+    if (window.goatcounter && window.goatcounter.visit_count) {
+      window.goatcounter.visit_count({
+        append: '#visitor-counter',
+        path: 'TOTAL'
+      });
+    } else {
+      setTimeout(mostrarContador, 100);
+    }
+  }
+
+  mostrarContador();
 </script>
 
 </body>
