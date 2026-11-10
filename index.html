@@ -845,22 +845,27 @@ render();
 
 <script
   data-goatcounter="https://catalogo-equipos.goatcounter.com/count"
+  async
   src="https://gc.zgo.at/count.js">
 </script>
 
 <script>
-  function mostrarContador() {
-    if (window.goatcounter && window.goatcounter.visit_count) {
-      window.goatcounter.visit_count({
-        append: '#visitor-counter',
-        path: 'TOTAL'
-      });
-    } else {
-      setTimeout(mostrarContador, 100);
-    }
-  }
+  window.addEventListener('DOMContentLoaded', function () {
+    const counter = document.getElementById('visitor-counter');
 
-  mostrarContador();
+    fetch('https://catalogo-equipos.goatcounter.com/counter/TOTAL.json')
+      .then(response => {
+        if (!response.ok) throw new Error('No se pudo consultar el contador');
+        return response.json();
+      })
+      .then(data => {
+        counter.textContent = Number(data.count).toLocaleString('es-EC');
+      })
+      .catch(error => {
+        counter.textContent = 'No disponible';
+        console.error('Error al cargar visitas:', error);
+      });
+  });
 </script>
 
 </body>
