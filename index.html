@@ -382,16 +382,25 @@ input:focus, select:focus {
 
 .notice {
   display: flex;
-  gap: 10px;
+  gap: 13px;
   align-items: flex-start;
   background: #EAF2ED;
   border: 1px solid #D6E5DA;
+  border-left: 5px solid #D39B39;
   border-radius: 12px;
-  padding: 13px 15px;
+  padding: 20px 22px;
   color: #355D48;
-  font-size: .83rem;
-  line-height: 1.5;
-  margin-top: 22px;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-top: 25px;
+}
+
+.notice--large {
+  max-width: 850px;
+}
+
+.notice strong {
+  font-weight: 800;
 }
 
 /* ADAPTACIÓN A CELULARES */
@@ -456,12 +465,17 @@ input:focus, select:focus {
     </p>
 
     <div class="notice notice--large">
-      <span aria-hidden="true">ⓘ</span>
-      <span  data-i18n="notice">
-        Este portal es únicamente de consulta. Para reservar
-        un equipo, sigue el Procedimiento de Reserva.
-      </span>
-    </div> 
+	  <span aria-hidden="true">ⓘ</span>
+	  <div data-i18n="notice">
+	    <strong>IMPORTANTE:</strong>
+	    Este portal es únicamente de consulta. Para reservar un equipo,
+	    sigue el <strong>Procedimiento de Reserva</strong>.
+	    <br>
+	    Recuerda que la disponibilidad puede cambiar entre la consulta
+	    y la aprobación de tu tutor. Las solicitudes enviadas con mayor
+	    anticipación tendrán prioridad.
+	  </div>
+	</div>
 
     <div class="hero-actions">
   <a class="hero-button" href="procedimiento-reservas.pdf" target="_blank" rel="noopener noreferrer" data-i18n="procedure">
@@ -771,7 +785,7 @@ const translations = {
     eyebrow: 'Portal de consulta · Laboratorios del edificio E2E3',
     title: 'Consulta la disponibilidad de equipos',
     description: 'Busca el equipo requerido y abre su calendario para revisar los horarios reservados y disponibles.',
-    notice: 'Este portal es únicamente de consulta. Para reservar un equipo, sigue el Procedimiento de Reserva.',
+    notice: '<strong>IMPORTANTE:</strong> Este portal es únicamente de consulta. Para reservar un equipo, sigue el <strong>Procedimiento de Reserva</strong>.<br>Recuerda que la disponibilidad puede cambiar entre la consulta y la aprobación de tu tutor. Las solicitudes enviadas con mayor anticipación tendrán prioridad.',
     procedure: '📄 Procedimiento de Reserva',
     schedule: '🗓️ Horario de Laboratorios de Docencia',
     search: 'Buscar por nombre o código...',
@@ -792,7 +806,7 @@ const translations = {
     eyebrow: 'Information Portal · E2E3 Building Laboratories',
     title: 'Check Equipment Availability',
     description: 'Find the equipment you need and open its calendar to check reserved and available time slots.',
-    notice: 'This portal is for consultation purposes only. To reserve equipment, please follow the Reservation Procedure.',
+    notice: '<strong>IMPORTANT:</strong> This portal is for consultation purposes only. To reserve equipment, please follow the <strong>Reservation Procedure</strong>.<br>Please remember that availability may change between checking the calendar and your tutor’s approval. Requests submitted further in advance will be given priority.',
     procedure: '📄 Reservation Procedure',
     schedule: '🗓️ Teaching Laboratories Schedule',
     search: 'Search by name or code...',
@@ -916,7 +930,11 @@ function changeLanguage(language) {
 
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.dataset.i18n;
-    element.textContent = t[key];
+    if (key === 'notice') {
+	  element.innerHTML = t[key];
+	} else {
+	  element.textContent = t[key];
+	}
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
