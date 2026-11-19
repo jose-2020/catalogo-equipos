@@ -225,6 +225,32 @@ h1 {
 
 .search-wrap { position: relative; }
 
+.demand-legend {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: -8px 0 20px;
+  padding: 11px 14px;
+  background: #FFF5F5;
+  border: 1px solid #F3D1D1;
+  border-radius: 10px;
+  color: #654040;
+  font-size: .86rem;
+  line-height: 1.5;
+}
+
+.demand-legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #E53935;
+  flex: none;
+}
+
+.demand-legend strong {
+  color: #C62828;
+}
+	
 .search-wrap svg {
   position: absolute;
   left: 15px;
@@ -536,6 +562,14 @@ input:focus, select:focus {
 
     </section>
 
+    <div class="demand-legend">
+      <span class="demand-legend-dot" aria-hidden="true"></span>
+      <span data-i18n="demandLegend">
+        <strong>Punto rojo – Alta Demanda:</strong>
+        Cada persona podrá reservar este equipo por un máximo de 2 días a la semana.
+      </span>
+    </div>
+
     <div class="summary">
       <h2 data-i18n="equipmentTitle">Equipos disponibles para consulta </h2>
       <span class="count" id="count" aria-live="polite"></span>
@@ -820,6 +854,7 @@ const translations = {
     search: 'Buscar por nombre o código...',
     allLabs: 'Todos los laboratorios',
     equipmentTitle: 'Equipos disponibles para consulta',
+	demandLegend: '<strong>Punto rojo – Alta Demanda:</strong> Cada persona podrá reservar este equipo por un máximo de 2 días a la semana.',
     empty: 'No encontramos equipos con esos criterios. Prueba otra búsqueda o selecciona otro laboratorio.',
     footer: 'Portal de consulta de equipos institucionales. Si tienes dudas sobre una reserva, comunícate con el responsable del laboratorio.',
     suggestionsTitle: '💡 Buzón de sugerencias',
@@ -841,6 +876,7 @@ const translations = {
     search: 'Search by name or code...',
     allLabs: 'All laboratories',
     equipmentTitle: 'Equipment Available for Consultation',
+	demandLegend: '<strong>Red dot – High Demand:</strong> Each person may reserve this equipment for a maximum of 2 days per week.',
     empty: 'No equipment found matching your criteria. Try another search or select a different laboratory.',
     footer: 'Institutional Equipment Information Portal. If you have questions about a reservation, please contact the laboratory manager.',
     suggestionsTitle: '💡 Suggestion Box',
@@ -959,7 +995,7 @@ function changeLanguage(language) {
 
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.dataset.i18n;
-    if (key === 'notice') {
+    if (key === 'notice' || key === 'demandLegend') {
 	  element.innerHTML = t[key];
 	} else {
 	  element.textContent = t[key];
