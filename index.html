@@ -306,6 +306,30 @@ input:focus, select:focus {
   flex: none;
 }
 
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.demand-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #C62828;
+  white-space: nowrap;
+}
+
+.demand-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #E53935;
+  flex: none;
+}	
+
 .code {
   color: #718179;
   font-size: .72rem;
@@ -600,6 +624,7 @@ const equipment = [
 	  name: "Horno de tubo (CVD)",
 	  lab: "Laboratorio de Nanofabricación",
 	  icon: "⚗️",
+	  highDemand: true,
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/c6ad40633546432d9eed8ba61e043918744499740502282306/calendar.html"
 	},
 	{
@@ -712,6 +737,7 @@ const equipment = [
 	  name: "RAMAN",
 	  lab: "Laboratorio de AME",
 	  icon: "🌈",
+	  highDemand: true,
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/2e1643ceb2fd49eeafc16bff6781c6584280985705283013676/calendar.html"
 	},
 	{
@@ -726,6 +752,7 @@ const equipment = [
 	  name: "SEM",
 	  lab: "Laboratorio de AME",
 	  icon: "🔬",
+	  highDemand: true,
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/d7ab592a57ef485bbf52f7b238d9eb928349630016145610514/calendar.html"
 	},
 	{
@@ -740,6 +767,7 @@ const equipment = [
 	  name: "Sputtering",
 	  lab: "Laboratorio de Nanofabricación",
 	  icon: "⚡",
+	  highDemand: true,
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/20a9fb49a84a4cd49c455b92a41378249573999611642827100/calendar.html"
 	},
 	{
@@ -747,6 +775,7 @@ const equipment = [
 	  name: "Spin Coater",
 	  lab: "Laboratorio de AME",
 	  icon: "🌀",
+	  highDemand: true,
 	  calendarUrl: "https://outlook.office365.com/owa/calendar/0d607a895fb643339d7fae83d9365a9a@yachaytech.edu.ec/809e823e843e480aa630482e567be32a5076817823759764214/calendar.html"
 	},
 	{
@@ -1022,17 +1051,38 @@ function render() {
     const top = document.createElement('div');
     top.className = 'card-top';
 
-    const icon = document.createElement('div');
-    icon.className = 'iconbox';
-    icon.setAttribute('aria-hidden','true');
-    icon.style.fontSize = '1.45rem';
-    icon.textContent = item.icon;
+    const iconWrapper = document.createElement('div');
+	iconWrapper.className = 'icon-wrapper';
+	
+	const icon = document.createElement('div');
+	icon.className = 'iconbox';
+	icon.setAttribute('aria-hidden','true');
+	icon.style.fontSize = '1.45rem';
+	icon.textContent = item.icon;
+	
+	iconWrapper.appendChild(icon);
+	
+	if (item.highDemand) {
+	  const demand = document.createElement('div');
+	  demand.className = 'demand-indicator';
+	
+	  const dot = document.createElement('span');
+	  dot.className = 'demand-dot';
+	
+	  const label = document.createElement('span');
+	  label.textContent = currentLanguage === 'es'
+	    ? 'Alta Demanda'
+	    : 'High Demand';
+	
+	  demand.append(dot, label);
+	  iconWrapper.appendChild(demand);
+	}
 
     const code = document.createElement('span');
     code.className = 'code';
     code.textContent = item.code;
 
-    top.append(icon, code);
+    top.append(iconWrapper, code);
 
     const title = document.createElement('h3');
 	title.textContent = getEquipmentName(item);
